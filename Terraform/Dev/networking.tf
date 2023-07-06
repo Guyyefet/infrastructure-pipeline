@@ -1,9 +1,12 @@
+locals {
+  vpc_name = "${var.environment_name}-vpc"
 
+}
 
 module "vpc" {
   source = "../.terraform/modules/vpc"
 
-  name = "${var.environment_name}-vpc"
+  name = local.vpc_name
   cidr = var.vpc_cidr_block
 
   azs             = var.availability_zones
@@ -18,9 +21,9 @@ module "vpc" {
   # manage_default_vpc = true
 
 
-  tags = {
-    Name        = "${var.environment_name}-vpc"
-    Environment = var.environment_name
-    Team = var.team_name
-  }
+  # tags = {
+  #   Name        = "${var.environment_name}-vpc"
+  #   Environment = var.environment_name
+  #   Team = var.team_name
+  # }
 }

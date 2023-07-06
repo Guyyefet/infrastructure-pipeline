@@ -29,22 +29,22 @@ variable "private_subnets" {
   description = "the private subnet in the vpc"
 }
 
-variable "instance_type" {
-  type = string
-  default = "t2.micro"
-  description = "instance type"
-}
+# variable "instance_type" {
+#   type = string
+#   default = "t2.micro"
+#   description = "instance type"
+# }
 
-variable "local_storage" {
-  type = string
-  default = "excluded"
-  description = "Indicate whether instance types with local storage volumes are included, excluded, or required."
-}
+# variable "local_storage" {
+#   type = string
+#   default = "excluded"
+#   description = "Indicate whether instance types with local storage volumes are included, excluded, or required."
+# }
 
-variable "key_pair_name" {
-  type = string
-  description = "key pair name"
-}
+# variable "key_pair_name" {
+#   type = string
+#   description = "key pair name"
+# }
 
 
 

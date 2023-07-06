@@ -18,9 +18,9 @@ module "vpc" {
   # manage_default_vpc = true
 
 
-  tags = {
-    Name        = "${var.environment_name}-vpc"
-    Environment = var.environment_name
-    Team = var.team_name
-  }
+  # tags = {
+  #   Name        = "${var.environment_name}-vpc"
+  #   Environment = var.environment_name
+  #   Team = var.team_name
+  # }
 }

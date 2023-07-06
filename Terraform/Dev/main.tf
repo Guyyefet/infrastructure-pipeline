@@ -1,14 +1,14 @@
 terraform {
   backend "s3" {
-    bucket = "terraform-devenv-state"
+    bucket = "terraform-dev-env-state"
     key    = "global/s3/terraform.tfstate"
     region = "us-east-1"
-    dynamodb_table = "terraform-devenv-locks"
+    dynamodb_table = "terraform-dev-env-locks"
     encrypt        = true
   }
   #   backend "local" {
-#     path = "terraform.tfstate"
-#   }
+  #   path = "terraform.tfstate"
+  # }
 }
 
 
