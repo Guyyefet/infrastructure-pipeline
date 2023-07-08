@@ -1,3 +1,34 @@
+module ""aws_iam_policy"" {
+  source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-policy"
+
+  name = "store-terraform-state-file-in-bucket"
+
+    policy = <<EOF
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "s3:ListBucket",
+			"Resource": "arn:aws:s3:::"terraform-dev-env-state"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject",
+				"s3:PutObject",
+				"s3:DeleteObject"
+			],
+			"Resource": [
+				"arn:aws:s3:::"terraform-dev-env-state/*",
+				"arn:aws:s3:::"terraform-dev-env-state"
+			]
+		}
+	]
+}
+EOF
+}
+
 module "iam_github_oidc_provider" {
   source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-github-oidc-provider"
 
@@ -18,7 +49,7 @@ module "iam_github_oidc_role" {
               "Guyyefet/infrastructure-pipeline:*"]
 
   policies = {
-    S3ReadOnly = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+    s3_store_state_policy = "arn:aws:s3:::terraform-store-state-in-s3-bucket"
   }
 
   tags = {
