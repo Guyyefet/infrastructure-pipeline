@@ -3,7 +3,7 @@ locals {
 
 }
 
-module "vpc" {
+module "dev_vpc" {
   source = "../.terraform/modules/vpc"
 
   name = local.vpc_name
