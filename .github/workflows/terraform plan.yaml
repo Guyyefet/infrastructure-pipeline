@@ -3,14 +3,14 @@ name: "terraform-dev-dnv-plan"
 on:
   push:
     paths:
-      - "Terraform/**"
+      - "Terraform/Dev/**"
     branches:
       - main
   release:
     types: [published]
   pull_request:
     paths:
-      - "Terraform/**"
+      - "Terraform/Dev/**"
     branches:
       - main
 
@@ -27,7 +27,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./Terraform
+        working-directory: Terraform/Dev
     
     # if: false
 
