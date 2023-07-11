@@ -46,7 +46,7 @@ module "dynamoDB-state-locks" {
                 "dynamodb:PutItem",
                 "dynamodb:DeleteItem"
             ],
-            "Resource": "arn:aws:dynamodb:*:*:table/terraform-dev-env-locks"
+            "Resource": "arn:aws:dynamodb:::table/terraform-dev-env-locks"
         }
     ]
 }
@@ -91,8 +91,7 @@ EOF
 module "iam_github_oidc_provider_for_terraform_plan_role" {
   source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-github-oidc-provider"
 
-
-#   client_id_list = ["https://github.com/Guyyefet/infrastructure-pipeline.git"]
+  client_id_list = ["sts.amazonaws.com"]
 
   tags = {
     Environment = var.environment_name
@@ -105,12 +104,12 @@ module "terraform-plan-role" {
   name = "terraform-plan-role"
   
   subjects = ["terraform-aws-modules/terraform-aws-iam:*",
-              "Guyyefet/infrastructure-pipeline:*"]
+              "Guyyefet/infrastructure-pipeline:Terraform/Dev:*"]
 
   policies = {
     store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket.arn,
     EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
-    AmazonVPCFullAccess = module.dev-env-vpc-premisions.arn
+    dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn
     dynamoDB-state-locks = module.dynamoDB-state-locks.arn
   }
 
