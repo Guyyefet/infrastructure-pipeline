@@ -115,5 +115,6 @@ module "terraform-plan-role" {
 
   tags = {
     Environment = var.environment_name
+    random = "test"
   }
 }
