@@ -1,4 +1,4 @@
-name: "terraform plan"
+name: "terraform-dev-dnv-plan"
 
 on:
   push:
@@ -19,17 +19,17 @@ permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: "Terraform"
+  terraform-plan:
+    name: "terraform-plan"
     runs-on: ubuntu-latest
     environment: dev
    
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform
+        working-directory: ./Terraform
     
-    if: false
+    # if: false
 
     steps:
       - name: Checkout
@@ -39,8 +39,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: us-east-1
-          role-session-name: GithubActions
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: ${{ vars.ROLE_SESSION_NAME }}
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -55,8 +55,7 @@ jobs:
 
       - name: Terraform Init and setting workspace 
         id: init
-        run: |
-          -terraform init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
