@@ -1,6 +1,7 @@
 module "store-terraform-state-file-in-bucket" {
-  source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-policy"
-
+  source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = " 5.27.0"
+  
   name = "store-terraform-state-file-in-bucket"
 
    policy = <<EOF
@@ -30,7 +31,8 @@ EOF
 }
 
 module "dynamoDB-state-locks" {
-  source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-policy"
+  source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = " 5.27.0"
 
   name = "dynamoDB-state-locks"
 
@@ -54,7 +56,8 @@ EOF
 }
 
 module "dev-env-vpc-premisions" {
-  source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-policy"
+  source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = " 5.27.0"
 
   name = "dev-env-vpc-premisions"
 
@@ -89,7 +92,8 @@ EOF
 }
 
 module "iam_github_oidc_provider_for_terraform_plan_role" {
-  source    = "../.terraform/modules/iam_github_oidc_provider/modules/iam-github-oidc-provider"
+  source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider"
+  version = " 5.27.0"
 
   client_id_list = ["sts.amazonaws.com"]
 
@@ -99,7 +103,8 @@ module "iam_github_oidc_provider_for_terraform_plan_role" {
 }
 
 module "terraform-plan-role" {
-  source    = "../.terraform/modules/iam_github_oidc_role/modules/iam-github-oidc-role"
+  source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-role"
+  version = " 5.27.0"
 
   name = "terraform-plan-role"
   
