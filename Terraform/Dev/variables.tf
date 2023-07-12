@@ -29,11 +29,11 @@ variable "private_subnets" {
   description = "the private subnet in the vpc"
 }
 
-variable "instance_type" {
-  type = string
-  default = "t2.micro"
-  description = "instance type"
-}
+# variable "instance_type" {
+#   type = string
+#   default = "t2.micro"
+#   description = "instance type"
+# }
 
 # variable "local_storage" {
 #   type = string
