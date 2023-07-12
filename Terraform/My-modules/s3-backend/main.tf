@@ -3,6 +3,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "this" {
+  count  = 1 
   bucket = var.bucket_name
 
   lifecycle {
