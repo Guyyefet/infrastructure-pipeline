@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "this" {
 }
 
 resource "aws_s3_bucket_versioning" "this" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.this[count.index].id
   versioning_configuration {
     status = var.bucket_versioning
   }
@@ -23,7 +23,7 @@ resource "aws_s3_bucket_versioning" "this" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  bucket = aws_s3_bucket.this.id
+  bucket = aws_s3_bucket.this[count.index].id
 
   rule {
     apply_server_side_encryption_by_default {
