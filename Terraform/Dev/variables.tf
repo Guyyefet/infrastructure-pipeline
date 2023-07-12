@@ -32,7 +32,7 @@ variable "private_subnets" {
 variable "instance_type" {
   type = string
   default = "t2.micro"
-  description = "test"
+  description = "test2"
 }
 
 # variable "local_storage" {
