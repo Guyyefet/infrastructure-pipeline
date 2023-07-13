@@ -1,9 +1,9 @@
-region                      = "us-east-1"
-environment_name            = "Dev"
-vpc_cidr_block              = "192.168.0.0/16"
-availability_zones          = ["us-east-1a"]
-private_subnets             = ["192.168.0.0/24"]
-public_subnets              = ["192.168.1.0/24"]
+# region                      = "us-east-1"
+# environment_name            = "Dev"
+# vpc_cidr_block              = "192.168.0.0/16"
+# availability_zones          = ["us-east-1a"]
+# private_subnets             = ["192.168.0.0/24"]
+# public_subnets              = ["192.168.1.0/24"]
 # instance_type               = "t2.micro"
 # local_storage               = "excluded"
 # key_pair_name               = "devops"
