@@ -5,6 +5,6 @@ availability_zones          = ["us-east-1a"]
 private_subnets             = ["192.168.0.0/24"]
 public_subnets              = ["192.168.1.0/24"]
 instance_type               = "t2.micro"
-# local_storage               = "excluded"
+local_storage               = "excluded"
 # key_pair_name               = "devops"
 # # CPUUtilization_target_value = 25
