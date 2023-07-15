@@ -1,0 +1,28 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "GithubOidcAuth",
+			"Effect": "Allow",
+			"Principal": {
+				"Federated": "arn:aws:iam::182021176759:oidc-provider/token.actions.githubusercontent.com"
+			},
+			"Action": [
+				"sts:TagSession",
+				"sts:AssumeRoleWithWebIdentity"
+			],
+			"Condition": {
+				"StringLike": {
+					"token.actions.githubusercontent.com:sub": [
+						"repo:terraform-aws-modules/terraform-aws-iam:*",
+						"repo:Guyyefet/infrastructure-pipeline:Terraform/Dev:*"
+					]
+				},
+				"ForAllValues:StringEquals": {
+					"token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+					"token.actions.githubusercontent.com:iss": "http://token.actions.githubusercontent.com"
+				}
+			}
+		}
+	]
+}
