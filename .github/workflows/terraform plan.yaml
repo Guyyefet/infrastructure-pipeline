@@ -1,4 +1,4 @@
-name: "terraform-dev-dnv-plan"
+name: "terraform-dev-env-plan"
 
 on:
   push:
@@ -38,9 +38,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ vars.AWS_REGION }}
-          role-session-name: ${{ vars.ROLE_SESSION_NAME }}
+          role-to-assume: arn:aws:iam::182021176759:role/terraform-plan-role
+          aws-region: us-east-1
+          role-session-name: aaa
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
