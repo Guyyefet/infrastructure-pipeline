@@ -108,56 +108,27 @@ EOF
 # EOF
 # }
 
-# module "github_oidc_provider" {
-#   source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider"
-#   version = " 5.27.0"
-
-#   client_id_list = ["sts.amazonaws.com"]
-# }
-
-# module "terraform-plan-role" {
-#   source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-role"
-#   version = " 5.27.0"
-
-# #   for_each = toset(var.environments)
-
-#   name = "terraform-plan-role"
-  
-#   subjects = ["terraform-aws-modules/terraform-aws-iam:*",
-#               "Guyyefet/infrastructure-pipeline:Terraform:*"]
-
-#   policies = {
-#     store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
-#     # EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
-#     # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn
-#     # dynamoDB-state-locks = module.dynamoDB-state-locks.arn
-
-#   }
-# }
-
-module "iam_github_oidc_provider_for_terraform_plan_role" {
+module "github_oidc_provider" {
   source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider"
   version = " 5.27.0"
 
   client_id_list = ["sts.amazonaws.com"]
-
-  tags = {
-    Environment = var.environment_name
-  }
 }
 
 module "terraform-plan-role" {
   source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-role"
   version = " 5.27.0"
 
+#   for_each = toset(var.environments)
+
   name = "terraform-plan-role"
   
   subjects = ["terraform-aws-modules/terraform-aws-iam:*",
-              "Guyyefet/infrastructure-pipeline:Terraform/Dev:*"]
+              "Guyyefet/infrastructure-pipeline:Terraform:*"]
 
   policies = {
-    store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket.arn,
-    EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
+    store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
+    # EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
     # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn
     # dynamoDB-state-locks = module.dynamoDB-state-locks.arn
 
