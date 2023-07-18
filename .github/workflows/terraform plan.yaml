@@ -38,9 +38,9 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: arn:aws:iam::182021176759:role/terraform-plan-role
-          aws-region: us-east-1
-          role-session-name: aaa
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: ${{ vars.ROLE_SESSION_NAME }}
           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -67,8 +67,37 @@ jobs:
         run: terraform plan -var-file=dev.tfvars -no-color -out=tfplan
         continue-on-error: true
 
+      - name: Save Terraform Plan Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tfplan
+          path: tfplan
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
+  pull-request-review:
+    name: Pull Request Review
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.TFPLAN_TOKEN }}
+          commit-message: Add Terraform plan for review
+          branch: terraform-plan
+          title: Terraform Plan for Review
+          body: |
+            A new Terraform plan has been generated and is attached for review.
+
+            **Plan File:** [tfplan](./tfplan)
+
+          reviewers: Guyyefet
 
 
