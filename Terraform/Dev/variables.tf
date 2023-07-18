@@ -12,7 +12,7 @@ variable "environment_name" {
 variable "test" {
   type = string
   description = "test var"
-  default = "test var2"
+  default = "test var"
 }
 
 # variable "vpc_cidr_block" {
