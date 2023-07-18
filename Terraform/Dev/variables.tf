@@ -9,31 +9,37 @@ variable "environment_name" {
   description = "the environment name for this resource"
 }
 
-variable "vpc_cidr_block" {
-  type        = string
-  description = "vpc_cidr_block"
-}
-
-variable "availability_zones" {
-  type        = list(string)
-  description = "value"
-}
-
-variable "public_subnets" {
-  type        = list(string)
-  description = "the public subnet in the vpc"
-}
-
-variable "private_subnets" {
-  type        = list(string)
-  description = "the private subnet in the vpc"
-}
-
-variable "instance_type" {
+variable "test" {
   type = string
-  default = "t2.micro"
-  description = "test2"
+  description = "test var"
+  default = "test var"
 }
+
+# variable "vpc_cidr_block" {
+#   type        = string
+#   description = "vpc_cidr_block"
+# }
+
+# variable "availability_zones" {
+#   type        = list(string)
+#   description = "value"
+# }
+
+# variable "public_subnets" {
+#   type        = list(string)
+#   description = "the public subnet in the vpc"
+# }
+
+# variable "private_subnets" {
+#   type        = list(string)
+#   description = "the private subnet in the vpc"
+# }
+
+# variable "instance_type" {
+#   type = string
+#   default = "t2.micro"
+#   description = "test2"
+# }
 
 # variable "local_storage" {
 #   type = string
