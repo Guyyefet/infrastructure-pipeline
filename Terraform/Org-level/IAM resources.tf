@@ -42,33 +42,33 @@ EOF
 }
 
 
-# module "dynamoDB-state-locks-premisions" {
-#   source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
-#   version = " 5.27.0"
+module "dynamoDB-state-locks-premisions" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = " 5.27.0"
 
-#   for_each = toset(var.environments)
+  # for_each = toset(var.environments)
 
-#   name = "dynamoDB-${each.value}-state-locks "
+  name = "dynamoDB-state-locks "
 
-#    policy = <<EOF
-# {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Effect": "Allow",
-#             "Action": [
-#                 "dynamodb:DescribeTable",
-#                 "dynamodb:GetItem",
-#                 "dynamodb:PutItem",
-#                 "dynamodb:DeleteItem",
-#                 "dynamodb:DescribeContinuousBackups"
-#             ],
-#             "Resource": "${module.environments_backend[each.key].table_arn}"
-#         }
-#     ]
-# }
-# EOF
-# }
+   policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DescribeTable",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeContinuousBackups"
+            ],
+            "Resource": "${module.environments_backend["development"].table_arn}"
+        }
+    ]
+}
+EOF
+}
 
 # module "env-vpc-premisions" {
 #   source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
