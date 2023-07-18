@@ -93,7 +93,7 @@ jobs:
         with:
           token: ${{ secrets.TFPLAN_TOKEN }}
           commit-message: Add Terraform plan for review
-          branch: new-workflow-feature
+          branch: tfplan-for-PR
           title: Terraform Plan for Review
           body: |
             A new Terraform plan has been generated and is attached for review.
