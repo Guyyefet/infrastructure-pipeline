@@ -15,6 +15,7 @@ module "store-terraform-state-file-in-bucket" {
       "Action": [
         "s3:ListBucket",
         "s3:ListBucketMultipartUploads",
+        "s3:GetBucketLocation",
         "s3:GetBucketVersioning",
         "s3:GetBucketEncryption"
       ],
@@ -64,6 +65,40 @@ module "dynamoDB-state-locks" {
                 "dynamodb:DescribeContinuousBackups"
             ],
             "Resource": "${module.environments_backend["development"].table_arn}"
+        }
+    ]
+}
+EOF
+}
+
+module "iam-permissions-to-assume-role" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = " 5.27.0"
+
+  # for_each = toset(var.environments)
+
+  name = "iam-permissions-to-assume-role"
+
+   policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:PassRole",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:CreatePolicy",
+                "iam:DeletePolicy",
+                "iam:GetPolicy",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:DeleteRolePolicy"
+            ],
+            "Resource": "${module.terraform-plan-role.arn}"
         }
     ]
 }
@@ -131,6 +166,7 @@ module "terraform-plan-role" {
     EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
     dynamoDB-state-locks = module.dynamoDB-state-locks.arn
     # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
+    iam-permissions-to-assume-role = module.iam-permissions-to-assume-role.arn
 
   }
 }
