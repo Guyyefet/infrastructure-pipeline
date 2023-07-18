@@ -3,7 +3,7 @@ name: "terraform-dev-env-plan"
 on:
   push:
     paths:
-      - "Terraform/Dev/**"
+      - "Terraform/**"
     branches:
       - main
       - new-workflow-feature
@@ -11,7 +11,7 @@ on:
     types: [published]
   pull_request:
     paths:
-      - "Terraform/Dev/**"
+      - "Terraform/**"
     branches:
       - main
       - new-workflow-feature
