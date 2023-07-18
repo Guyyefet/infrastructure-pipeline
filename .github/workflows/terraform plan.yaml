@@ -6,6 +6,7 @@ on:
       - "Terraform/Dev/**"
     branches:
       - main
+      - new-workflow-feature
   release:
     types: [published]
   pull_request:
@@ -13,6 +14,7 @@ on:
       - "Terraform/Dev/**"
     branches:
       - main
+      - new-workflow-feature
 
 permissions:
   id-token: write
