@@ -124,7 +124,7 @@ module "terraform-plan-role" {
   name = "terraform-plan-role"
   
   subjects = ["terraform-aws-modules/terraform-aws-iam:*",
-              "Guyyefet/infrastructure-pipeline:Terraform:*"]
+              "Guyyefet/infrastructure-pipeline:*"]
 
   policies = {
     store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
