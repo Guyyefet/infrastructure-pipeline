@@ -42,13 +42,13 @@ EOF
 }
 
 
-module "dynamoDB-state-locks-premisions" {
+module "dynamoDB-state-locks" {
   source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = " 5.27.0"
 
   # for_each = toset(var.environments)
 
-  name = "dynamoDB-state-locks "
+  name = "dynamoDB-state-locks"
 
    policy = <<EOF
 {
@@ -128,7 +128,7 @@ module "terraform-plan-role" {
 
   policies = {
     store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
-    # EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
+    EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
     dynamoDB-state-locks = module.dynamoDB-state-locks.arn
     # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
 
