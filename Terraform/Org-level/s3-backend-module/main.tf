@@ -2,8 +2,13 @@ terraform {
   required_version = ">=0.12"
 }
 
+locals {
+  root_account_id = ["${data.aws_caller_identity.current.account_id}"]
+}
+
+data "aws_caller_identity" "current" {}
+
 resource "aws_s3_bucket" "this" {
-  count  = 1 
   bucket = var.bucket_name
 
   lifecycle {
@@ -12,8 +17,7 @@ resource "aws_s3_bucket" "this" {
 }
 
 resource "aws_s3_bucket_versioning" "this" {
-  count  = 1 
-  bucket = aws_s3_bucket.this[count.index].id
+  bucket = aws_s3_bucket.this.id
   versioning_configuration {
     status = var.bucket_versioning
   }
@@ -24,8 +28,7 @@ resource "aws_s3_bucket_versioning" "this" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  count  = 1 
-  bucket = aws_s3_bucket.this[count.index].id
+  bucket = aws_s3_bucket.this.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -34,8 +37,29 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   }
 }
 
+resource "aws_s3_bucket_policy" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  policy = <<-EOF
+   {
+   	"Version": "2012-10-17",
+   	"Statement": [{
+   		"Effect": "Allow",
+   		"Principal": {
+        "AWS": ${jsonencode(var.identifiers != [] ? var.identifiers : local.root_account_id)}
+        },
+   		"Action": ${jsonencode(var.default_policy_actions)}
+,
+   		"Resource": [
+   			"${aws_s3_bucket.this.arn}",
+   			"${aws_s3_bucket.this.arn}/*"
+   		]
+   	}]
+   }   
+EOF
+}
+
 resource "aws_dynamodb_table" "this" {
-  count = 1
   name         = var.dynamodb_table
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
