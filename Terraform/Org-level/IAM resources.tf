@@ -1,3 +1,20 @@
+# module "my-user" {
+#   source = "terraform-aws-modules/iam/aws//modules/iam-user"
+#   version   = "5.27.0"
+
+#   name = "infrastructre-pipeline-user"
+# }
+
+# module "admin-group" {
+#   source = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
+#   version   = "5.27.0" 
+
+#   name = "admins"
+
+#   group_users = ["${module.my-user.iam_user_arn}"]
+#   custom_group_policy_arns = []
+# }
+
 module "store-terraform-state-file-in-bucket" {
   source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version   = "5.27.0"
@@ -163,7 +180,7 @@ module "terraform-plan-role" {
 
   policies = {
     store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
-    EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
+    # EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
     dynamoDB-state-locks = module.dynamoDB-state-locks.arn
     # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
     iam-permissions-to-assume-role = module.iam-permissions-to-assume-role.arn
