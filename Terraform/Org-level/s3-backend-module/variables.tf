@@ -1,23 +1,23 @@
 variable "bucket_name" {
-  description = "Name of the S3 bucket to be created"
+  description = "the bucket's name"
   default     = ""
   type        = string
 }
 
 variable "bucket_versioning" {
-  description = "value"
+  description = "the bucket versioning status"
   default = "Enabled"
   type = string
 }
 
 variable "dynamodb_table" {
-  description = "dynamodb table for state-locks"
+  description = "the dynamodb table for state-locks"
   default = ""
   type = string
 }
 
 variable "default_policy_actions" {
-  description = "the default actions of the policy"
+  description = "the default policy actions of the bucket"
   default = [
         "s3:GetObject",
         "s3:PutObject",
@@ -26,8 +26,8 @@ variable "default_policy_actions" {
   type = list(string)
 }
 
-variable "identifiers" {
-  description = "value"
+variable "policy_principal_identifiers" {
+  description = "the policy's principal identifiers of the bucket"
   default = []
   type = list(string)
 }

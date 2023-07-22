@@ -46,7 +46,7 @@ resource "aws_s3_bucket_policy" "this" {
    	"Statement": [{
    		"Effect": "Allow",
    		"Principal": {
-        "AWS": ${jsonencode(var.identifiers != [] ? var.identifiers : local.root_account_id)}
+        "AWS": ${jsonencode(var.policy_principal_identifiers != [] ? var.policy_principal_identifiers : local.root_account_id)}
         },
    		"Action": ${jsonencode(var.default_policy_actions)}
 ,
