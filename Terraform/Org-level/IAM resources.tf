@@ -182,7 +182,7 @@ module "terraform-plan-role" {
     store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
     EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
     dynamoDB-state-locks = module.dynamoDB-state-locks.arn
-    dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
+    # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
     iam-permissions-to-assume-role = module.iam-permissions-to-assume-role.arn
 
   }
