@@ -6,8 +6,8 @@ module "org_level_backend" {
 
   policy_principal_identifiers = [
     "${data.aws_caller_identity.current.account_id}",
-    "${module.terraform-plan-role.arn}",
-    "${module.infrastructre-group.group_arn}"
+    "${module.terraform-plan-role.arn}"
+    # "${module.infrastructre-group.group_arn}"
     ]  
 }
 

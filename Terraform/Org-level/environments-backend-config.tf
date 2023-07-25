@@ -8,7 +8,7 @@ module "environments_backend" {
   bucket_versioning = "Enabled"
 
   policy_principal_identifiers = [
-    "${module.terraform-plan-role.arn}",
-    "${module.infrastructre-group.group_arn}"
+    "${module.terraform-plan-role.arn}"
+    # "${module.infrastructre-group.group_arn}"
   ]
 }

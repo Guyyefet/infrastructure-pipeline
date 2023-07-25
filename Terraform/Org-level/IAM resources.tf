@@ -1,9 +1,39 @@
-# module "my-user" {
-#   source = "terraform-aws-modules/iam/aws//modules/iam-user"
-#   version   = "5.27.0"
+module "github_oidc_provider" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider"
+  version = " 5.27.0"
 
-#   name = "infrastructre-pipeline-user"
-# }
+  client_id_list = ["sts.amazonaws.com"]
+}
+
+module "terraform-plan-role" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-role"
+  version = " 5.27.0"
+
+  # for_each = toset(var.environments)
+
+  name = "terraform-plan-role"
+  
+  subjects = ["terraform-aws-modules/terraform-aws-iam:*",
+              "Guyyefet/infrastructure-pipeline:*"]
+
+  policies = {
+    store-terraform-state-file-in-bucket-development = module.store-terraform-state-file-in-bucket["development"].arn,
+    store-terraform-state-file-in-bucket-testing = module.store-terraform-state-file-in-bucket["testing"].arn,
+    EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
+    dynamoDB-state-locks-development = module.dynamoDB-state-locks["development"].arn,
+    dynamoDB-state-locks-testing = module.dynamoDB-state-locks["testing"].arn,
+    # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
+    iam-permissions-to-assume-role = module.iam-permissions-to-assume-role.arn
+
+  }
+}
+
+module "my-user" {
+  source = "terraform-aws-modules/iam/aws//modules/iam-user"
+  version   = "5.27.0"
+
+  name = "infrastructre-pipeline-user"
+}
 
 # module "admin-group" {
 #   source = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
@@ -14,6 +44,7 @@
 #   group_users = ["${module.my-user.iam_user_arn}"]
 #   custom_group_policy_arns = []
 # }
+
 
 module "store-terraform-state-file-in-bucket" {
   source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
@@ -64,9 +95,9 @@ module "dynamoDB-state-locks" {
   source    = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = " 5.27.0"
 
-  # for_each = toset(var.environments)
+  for_each = toset(var.environments)
 
-  name = "dynamoDB-state-locks"
+  name = "dynamoDB-state-locks-${each.value}"
 
    policy = <<EOF
 {
@@ -81,7 +112,7 @@ module "dynamoDB-state-locks" {
                 "dynamodb:DeleteItem",
                 "dynamodb:DescribeContinuousBackups"
             ],
-            "Resource": "${module.environments_backend["development"].table_arn}"
+            "Resource": "${module.environments_backend[each.key].table_arn}"
         }
     ]
 }
@@ -115,7 +146,7 @@ module "iam-permissions-to-assume-role" {
                 "iam:PutRolePolicy",
                 "iam:DeleteRolePolicy"
             ],
-            "Resource": "${module.terraform-plan-role.arn}"
+            "Resource": "*"
         }
     ]
 }
@@ -159,31 +190,3 @@ EOF
 # }
 # EOF
 # }
-
-module "github_oidc_provider" {
-  source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-provider"
-  version = " 5.27.0"
-
-  client_id_list = ["sts.amazonaws.com"]
-}
-
-module "terraform-plan-role" {
-  source    = "terraform-aws-modules/iam/aws//modules/iam-github-oidc-role"
-  version = " 5.27.0"
-
-#   for_each = toset(var.environments)
-
-  name = "terraform-plan-role"
-  
-  subjects = ["terraform-aws-modules/terraform-aws-iam:*",
-              "Guyyefet/infrastructure-pipeline:*"]
-
-  policies = {
-    store-terraform-state-file-in-bucket = module.store-terraform-state-file-in-bucket["development"].arn,
-    # EC2_FULL_ACCESS = "arn:aws:iam::182021176759:policy/EC2_FULL_ACCESS",
-    dynamoDB-state-locks = module.dynamoDB-state-locks.arn
-    # dev-env-vpc-premisions = module.dev-env-vpc-premisions.arn,
-    iam-permissions-to-assume-role = module.iam-permissions-to-assume-role.arn
-
-  }
-}
